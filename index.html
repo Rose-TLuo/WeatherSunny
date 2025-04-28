@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>天气晴陪玩团 - 订单表单</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<div class="form-container">
+    <h1>天气晴陪玩团</h1>
+    <h2>IDV价格表</h2>
+
+    <form id="service-form">
+        <div class="form-row">
+            <label for="boss-id">老板ID:</label>
+            <input type="text" id="boss-id" name="boss-id" required>
+        </div>
+
+        <div class="form-row">
+            <label>服务类型:</label>
+            <select id="service-type" name="service-type" required>
+                <option value="">-- 请选择服务类型 --</option>
+                <option value="technical">技术陪</option>
+                <option value="entertainment">娱乐陪</option>
+                <option value="survivor">求生代打</option>
+                <option value="hunter">监管代打</option>
+                <option value="weekly-limit">周上限</option>
+                <option value="rank-3">低保</option>
+                <option value="training">陪练/教学</option>
+                <option value="other">其他项目</option>
+            </select>
+        </div>
+
+        <!-- 技术陪 options -->
+        <div id="technical-options" class="service-options">
+            <div class="form-row">
+                <label>技术陪段位:</label>
+                <select id="technical-level" name="technical-level">
+                    <option value="0">-- 请选择段位 --</option>
+                    <option value="1-3">1-3阶 (35r/h)</option>
+                    <option value="4">4阶 (40r/h)</option>
+                    <option value="5">5阶 (45r/h)</option>
+                    <option value="6">6阶 (50r/h)</option>
+                    <option value="7">7阶 (65r/h)</option>
+                    <option value="top7">巅7 (75r/h)</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="technical-hours">小时数:</label>
+                <input type="number" id="technical-hours" name="technical-hours" min="1" value="1">
+            </div>
+        </div>
+
+        <!-- 娱乐陪 options -->
+        <div id="entertainment-options" class="service-options">
+            <div class="form-row">
+                <label>娱乐陪类型:</label>
+                <select id="entertainment-type" name="entertainment-type">
+                    <option value="0">-- 请选择类型 --</option>
+                    <option value="matching">匹配 (40r/h)</option>
+                    <option value="koh">王者 (50r/h)</option>
+                    <option value="0">其他 (详细请咨询)</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <label for="entertainment-hours">小时数:</label>
+                <input type="number" id="entertainment-hours" name="entertainment-hours" min="1" value="1">
+            </div>
+        </div>
+
+        <!-- 求生代打 options -->
+        <div id="survivor-options" class="service-options">
+            <div class="form-row">
+                <label>
+                    <input type="checkbox" id="survivor-specify" name="survivor-specify">
+                    指定角色
+                </label>
+            </div>
+            <!--这里是隐藏的，只有在指定角色选中时才显示-->
+            <div class="form-row">
+                <label for="survivor-role">角色选项:</label>
+                <select id="survivor-role" name="survivor-role">
+                    <option value="">-- 请选择角色 --</option>
+                    <option value="lucky-guy">幸运儿</option>
+                    <option value="doctor">医生</option>
+                    <option value="lawyer">律师</option>
+                    <option value="thief">慈善家</option>
+                    <option value="gardener">园丁</option>
+                    <option value="magician">魔术师</option>
+                    <option value="adventurer">冒险家</option>
+                    <option value="mercenary">佣兵</option>
+                    <option value="priestess">祭司</option>
+                    <option value="coordinator">空军</option>
+                    <option value="mechanic">机械师</option>
+                    <option value="forward">前锋</option>
+                    <option value="minds-eye">盲女</option>
+                    <option value="perfumer">调香师</option>
+                    <option value="cowboy">牛仔</option>
+                    <option value="dancer">舞女</option>
+                    <option value="seer">先知</option>
+                    <option value="embalmer">入殓师</option>
+                    <option value="prospector">勘探员</option>
+                    <option value="enchantress">咒术师</option>
+                    <option value="wildling">野人</option>
+                    <option value="acrobat">杂技演员</option>
+                    <option value="first-officer">大副</option>
+                    <option value="barmaid">调酒师</option>
+                    <option value="postman">邮差</option>
+                    <option value="grave-keeper">守墓人</option>
+                    <option value="prisoner">囚徒</option>
+                    <option value="entomologist">昆虫学者</option>
+                    <option value="painter">画家</option>
+                    <option value="batter">击球手</option>
+                    <option value="toy-merchant">玩具商</option>
+                    <option value="patient">病患</option>
+                    <option value="psychologist">心理学家</option>
+                    <option value="novelist">小说家</option>
+                    <option value="little-girl">小女孩</option>
+                    <option value="weeping-clown">哭泣小丑</option>
+                    <option value="professor">教授</option>
+                    <option value="antiquarian">古董商</option>
+                    <option value="composer">作曲家</option>
+                    <option value="journalist">记者</option>
+                    <option value="aeroplanist">飞行家</option>
+                    <option value="cheerleader">啦啦队员</option>
+                    <option value="puppeteer">木偶师</option>
+                    <option value="fire-investigator">火灾调查员</option>
+                    <option value="madam-k">法罗女士</option>
+                    <option value="knight">骑士</option>
+                    <option value="meteorologist">气象学家</option>
+                    <option value="archer">弓箭手</option>
+                </select>
+            </div>
+
+
+            <!--认知分输入，仅在指定角色时显示-->
+            <div class="form-row">
+                <label for="survivor-point-now">当前认知分:</label>
+                <input type="number" id="survivor-point-now" name="survivor-point-now"
+                       min="0" max="10000" value="0">
+            </div>
+
+            <div class="form-row">
+                <label for="survivor-point-target">目标认知分:</label>
+                <input type="number" id="survivor-point-target" name="survivor-point-target"
+                       min="0" max="10000" value="0">
+            </div>
+
+            <div class="form-row">
+                <label for="survivor-star-from1">当前段位：</label>
+                <select id="survivor-star-from1" name="survivor-star-from1">
+                    <option value="">-- 请选择段位 --</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="top7">巅7</option>
+                </select>
+                阶
+                <select id="survivor-star-from2" name="survivor-star-from2" disabled>
+                    <option value="">-- 请选择等级 --</option>
+                </select>
+                -
+                <input type="number" id="survivor-star-from3" name="survivor-star-from3"
+                       min="0" max="10000" value="0" disabled>星
+
+            </div>
+
+
+
+            <div class="form-row">
+                <label for="survivor-star-to1">目标段位：</label>
+                <select id="survivor-star-to1" name="survivor-star-to1">
+                    <option value="">-- 请选择段位 --</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="top7">巅7</option>
+                </select>
+                阶
+                <select id="survivor-star-to2" name="survivor-star-to2" disabled>
+                    <option value="">-- 请选择等级 --</option>
+                </select>
+                -
+                <input type="number" id="survivor-star-to3" name="survivor-star-to3"
+                       min="0" max="10000" value="0" disabled>星
+
+            </div>
+
+        </div>
+
+        <!-- 监管代打 options -->
+        <div id="hunter-options" class="service-options">
+
+            <div class="form-row">
+                <label>
+                    <input type="checkbox" id="hunter-specify" name="hunter-specify">
+                    指定角色
+                </label>
+            </div>
+            <!--这里是隐藏的，只有在指定角色选中时才显示-->
+            <div class="form-row">
+                <label for="hunter-role">监管者选项:</label>
+                <select id="hunter-role" name="hunter-role">
+                    <option value="">-- 请选择监管者 --</option>
+                    <option value="hell-ember">厂长</option>
+                    <option value="smiley-face">小丑</option>
+                    <option value="gamekeeper">鹿头</option>
+                    <option value="ripper">杰克</option>
+                    <option value="soul-weaver">蜘蛛</option>
+                    <option value="geisha">红蝶</option>
+                    <option value="hastur">黄衣之主</option>
+                    <option value="wuchang">宿伞之魂</option>
+                    <option value="photographer">摄影师</option>
+                    <option value="mad-eyes">疯眼</option>
+                    <option value="dream-witch">梦之女巫</option>
+                    <option value="bloody-queen">红夫人</option>
+                    <option value="guard26">26号守卫</option>
+                    <option value="sculptor">雕刻家</option>
+                    <option value="violinist">小提琴家</option>
+                    <option value="disciple">使徒</option>
+                    <option value="wax-artist">蠟像師</option>
+                    <option value="nightmare">噩梦</option>
+                    <option value="hermit">隐士</option>
+                    <option value="night-watch">守夜人</option>
+                    <option value="opera-singer">歌剧演员</option>
+                    <option value="fool's-gold">愚人金</option>
+                    <option value="shadow-of-time">时空之影</option>
+                    <option value="crippled-lamb">跛脚羊</option>
+                    <option value="uproar">喧嚣</option>
+                    <option value="grocer">杂货商</option>
+                </select>
+            </div>
+
+
+            <!--认知分输入，仅在指定角色时显示-->
+            <div class="form-row">
+                <label for="hunter-point-now">当前认知分:</label>
+                <input type="number" id="hunter-point-now" name="hunter-point-now"
+                       min="0" max="10000" value="0">
+            </div>
+
+            <div class="form-row">
+                <label for="hunter-point-target">目标认知分:</label>
+                <input type="number" id="hunter-point-target" name="hunter-point-target"
+                       min="0" max="10000" value="0">
+            </div>
+
+            <div class="form-row">
+                <label for="hunter-star-from1">当前段位：</label>
+                <select id="hunter-star-from1" name="hunter-star-from1">
+                    <option value="">-- 请选择段位 --</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="top7">巅7</option>
+                </select>
+                阶
+                <select id="hunter-star-from2" name="hunter-star-from2" disabled>
+                    <option value="">-- 请选择等级 --</option>
+                </select>
+                -
+                <input type="number" id="hunter-star-from3" name="hunter-star-from3"
+                       min="0" max="10000" value="0" disabled>星
+
+            </div>
+
+
+
+            <div class="form-row">
+                <label for="hunter-star-to1">目标段位：</label>
+                <select id="hunter-star-to1" name="hunter-star-to1">
+                    <option value="">-- 请选择段位 --</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="top7">巅7</option>
+                </select>
+                阶
+                <select id="hunter-star-to2" name="hunter-star-to2" disabled>
+                    <option value="">-- 请选择等级 --</option>
+                </select>
+                -
+                <input type="number" id="hunter-star-to3" name="hunter-star-to3"
+                       min="0" max="10000" value="0" disabled>星
+
+            </div>
+        </div>
+
+        <!-- 其他服务类型的 options -->
+        <div id="weekly-limit-options" class="service-options">
+            <div class="form-row">
+                <label for="weekly-limit-num">周数:</label>
+                <input type="number" id="weekly-limit-num" name="weekly-limit-num" min="1" value="1">
+            </div>
+        </div>
+
+        <div id="rank-3-options" class="service-options">
+            <div class="form-row">
+                <label for="rank-3-num">天数:</label>
+                <input type="number" id="rank-3-num" name="rank-3-num" min="1" value="1">
+            </div>
+        </div>
+
+        <div id="training-options" class="service-options">
+            <div class="form-row">
+                <label for="training-num">小时数:</label>
+                <input type="number" id="training-num" name="training-num" min="1" value="1">
+            </div>
+        </div>
+
+        <div id="other-options" class="service-options">
+            <div class="form-row">
+                <label>项目类型:</label>
+                <select id="other-type" name="other-type">
+                    <option value="">-- 请选择类型 --</option>
+                    <option value="accompany">陪聊 (35r/h)</option>
+                    <option value="literature">文字 (30r/h)</option>
+                    <option value="tree-hole">树洞 (40r/h)</option>
+                    <option value="voice-chat">哭腔 (40r/h)</option>
+                    <option value="affection">虚恋 (60r/h)</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="other-hours">小时数:</label>
+                <input type="number" id="other-hours" name="other-hours" min="1" value="1">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label>特殊时段:</label>
+            <select id="special-period" name="special-period">
+                <option value="normal">普通时段</option>
+                <option value="season">赛季初 (+20%)</option>
+                <option value="limited">凌晨场 (+30%)</option>
+            </select>
+        </div>
+
+        <div class="price-section">
+            <div class="form-row">
+                <label>总价:</label>
+                <span id="price-display">0.00</span>
+                <input type="hidden" id="price-input" name="price" value="0.00">
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">确认提交</button>
+    </form>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
