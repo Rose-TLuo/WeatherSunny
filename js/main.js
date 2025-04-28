@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
             '5': 45,
             '6': 50,
             '7': 65,
-            'top7': 75
+            '8': 75
         },
         entertainment: {
             '0': 0,
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 '5': 18,
                 '6': 25,
                 '7': 30,
-                'top7':35
+                '8':35
             },
             pointRates: [
                 { min: 0, max: 2000, rate: 8 },
@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 '4': { levels: 5, starsPerLevel: 5 },
                 '5': { levels: 5, starsPerLevel: 5 },
                 '6': { levels: 5, starsPerLevel: 5 },
-                '7': { levels: 1, starsPerLevel: 24 },
-                'top7': { levels: 1, starsPerLevel: 200 }
+                '7': { levels: 1, starsPerLevel: 25 },
+                '8': { levels: 1, starsPerLevel: 200 }
             }
         },
         hunter: {
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 '5': 15,
                 '6': 20,
                 '7': 28,
-                'top7':32
+                '8':32
             },
             pointRates: [
                 { min: 0, max: 2000, rate: 8 },
@@ -108,8 +108,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 '4': { levels: 5, starsPerLevel: 5 },
                 '5': { levels: 5, starsPerLevel: 5 },
                 '6': { levels: 5, starsPerLevel: 5 },
-                '7': { levels: 1, starsPerLevel: 24 },
-                'top7': { levels: 1, starsPerLevel: 200 }
+                '7': { levels: 1, starsPerLevel: 25 },
+                '8': { levels: 1, starsPerLevel: 200 }
             }
         },
         weeklyLimit: 50,
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateStarOptions(rankSelect, levelSelect, starInput) {
         const config = PRICE_CONFIG.survivor;
-        const specialRanks = ['7', 'top7'];
+        const specialRanks = ['7', '8'];
 
         // 重置等级选项
         levelSelect.innerHTML = '<option value="">-- 请选择等级 --</option>';
@@ -146,8 +146,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 levelSelect.innerHTML = '<option value="0">无等级</option>';
                 starInput.max = rankConfig.starsPerLevel;
                 starInput.min = 0;
-                if (selectedRank ==='top7'){
+                if (selectedRank ==='8'){
                     starInput.min = 25;
+                    starInput.value = 25;
+                    starInput.addEventListener('input', function() {
+                        if (parseInt(this.value, 10) < 25) this.value = 25;
+                    });
                 }
             } else {
                 // 其他段位启用等级选择
@@ -197,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateStarOptions(hunterStarFrom1, hunterStarFrom2, hunterStarFrom3));
 
     hunterStarTo1.addEventListener('change', () =>
-        updateStarOptions(hunterStarTo1, survivorStarTo2, survivorStarTo3));
+        updateStarOptions(hunterStarTo1, hunterStarTo2, hunterStarTo3));
 
     function toggleRoleOptions(checkbox, roleRow, pointNowRow, pointTargetRow, roleSelect, pointNowInput, pointTargetInput, calculateFn) {
         const isSpecified = checkbox.checked;
@@ -286,16 +290,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function calculateStarPrice(role,fromRank1, fromRank2, fromStars, toRank1, toRank2, toStars) {
         const config = PRICE_CONFIG[role];
-
+        console.log(fromRank1, fromRank2, toRank1, toRank2)
         if (!fromRank1 || !toRank1) return 0;
 
         // 转成数字再做比较
         let fRank = parseInt(fromRank1);
         let tRank = parseInt(toRank1);
-        let fSeg = parseInt(fromRank2);
-        let tSeg = parseInt(toRank2);
-        let fStar = parseInt(fromStars);
-        let tStar = parseInt(toStars);
+        let fSeg = parseInt(fromRank2) || 1;
+        let tSeg = parseInt(toRank2) || 1;
+        let fStar = parseInt(fromStars) || 0;
+        let tStar = parseInt(toStars) || 0;
 
         if (fRank > tRank) return 0; // 大段位必须升序
         if (fRank === tRank) {
@@ -308,13 +312,13 @@ document.addEventListener('DOMContentLoaded', function() {
         let totalPrice = 0;
 
         let curRank = String(fromRank1);
-        let curSeg = parseInt(fromRank2 || 1);
-        let curStar = parseInt(fromStars);
+        let curSeg = parseInt(fromRank2) || 1;
+        let curStar = parseInt(fromStars) || ((curRank == 8) ? 25 : 0);
 
         const toRank = String(toRank1);
-        const toSeg = parseInt(toRank2 || 1);
-        const toStar = parseInt(toStars);
-        console.log(curRank)
+        const toSeg = parseInt(toRank2) || 1;
+        const toStar = parseInt(toStars) || ((toRank == 8) ? 25 : 0);
+        console.log(curRank, curSeg, curStar, toRank, toSeg, toStar)
         // 获取本段当前小段最大星数
         function getMaxStars(rank) {
             return config.starLevels[String(rank)].starsPerLevel;
@@ -331,18 +335,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function isArrived() {
+            console.log("DONE")
             return curRank === toRank && curSeg === toSeg && curStar === toStar;
         }
 
         function isSpecialRank(r) {
-            return r === "7" || r === "top7";
+            return r === "8";
         }
 
+        // 特殊处理7-8的升级
+        function handleSevenToEight() {
+            // 7段满24星直接进入8段
+            if (curStar < 24){
+                totalPrice += getPricePerStar("7");
+                curStar ++;
+            }
+            else  {
+                curRank = "8";
+                curStar = 25; // 8段从25星开始
+                totalPrice += getPricePerStar("7");
+            }
+        }
+
+        console.log('before', curRank, curSeg, curStar, toRank, toSeg, toStar)
         while (!isArrived()) {
-            // 对特殊段位（7和top7）：没有小段，只有一条线按星走
-            if (isSpecialRank(curRank)) {
+            // 特殊处理7-8段
+            console.log(curRank, curSeg, curStar, toRank, toSeg, toStar)
+            if (curStar > 100){
+                break;
+            }
+            if (curRank > toRank){
+                break
+            }
+            if (curRank === "7") {
+                handleSevenToEight();
+            }
+            // 对特殊段位（8）处理
+            else if (curRank === "8") {
                 curStar++;
-                totalPrice += getPricePerStar(curRank);
+                totalPrice += getPricePerStar("8");
             } else {
                 // 正常段位加星
                 curStar++;
@@ -411,6 +442,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     const pointTarget = parseInt(document.getElementById('survivor-point-target').value || 0);
 
                     const pointPrice = calculatePointPrice('survivor',pointNow, pointTarget);
+                    basePrice += pointPrice;
+                }
+                break;
+            case 'hunter':
+                const isHunterSpecify = document.getElementById('hunter-specify').checked;
+
+                // 计算星级价格
+                const starPriceH = calculateStarPrice('hunter',hunterStarFrom1.value,hunterStarFrom2.value, hunterStarFrom3.value,
+                    hunterStarTo1.value, hunterStarTo2.value, hunterStarTo3.value);
+                basePrice = starPriceH;
+
+                // 如果指定角色，计算认知分加价
+                if (isHunterSpecify) {
+                    const pointNow = parseInt(document.getElementById('hunter-point-now').value || 0);
+                    const pointTarget = parseInt(document.getElementById('hunter-point-target').value || 0);
+
+                    const pointPrice = calculatePointPrice('hunter',pointNow, pointTarget);
                     basePrice += pointPrice;
                 }
                 break;
@@ -492,12 +540,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 初始化
     hideAllServiceOptions();
-
-
-    survivorSpecifyCheckbox.addEventListener('change', function() {
-        survivorRoleSelect.disabled = !this.checked;
-        calculatePrice();
-    });
 
 // 在各种输入变更事件中添加
     document.querySelectorAll('select, input[type="number"], input[type="checkbox"]').forEach(input => {
