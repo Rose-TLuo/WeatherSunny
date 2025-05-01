@@ -144,14 +144,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 7阶和巅7没有等级选择
                 levelSelect.disabled = true;
                 levelSelect.innerHTML = '<option value="0">无等级</option>';
-                starInput.max = rankConfig.starsPerLevel;
+                starInput.max = rankConfig.starsPerLevel-1;
                 starInput.min = 0;
-                if (selectedRank ==='8'){
+                if (selectedRank ==='7'){
+                    starInput.value = 0;
+                    console.log(starInput.min,starInput.max)
+                    starInput.addEventListener('input', function() {
+                        if (parseInt(this.value, 10) > 24) this.value = 24;
+                    });
+                }
+                else if (selectedRank ==='8'){
                     starInput.min = 25;
                     starInput.value = 25;
                     starInput.addEventListener('input', function() {
                         if (parseInt(this.value, 10) < 25) this.value = 25;
                     });
+                    console.log(selectedRank)
+                } else{
+                    starInput.value = 0;
                 }
             } else {
                 // 其他段位启用等级选择
@@ -528,14 +538,29 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // 可以在这里添加更多的表单验证逻辑
-
         // 提交逻辑
         const formData = new FormData(serviceForm);
         const orderData = Object.fromEntries(formData.entries());
 
-        console.log('订单提交数据:', orderData);
-        alert('订单提交成功！总价：' + priceDisplay.textContent);
+        // 使用fetch API发送请求到后端
+        fetch('https://ws-flask.onrender.com/api/submit_order', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('服务器响应:', data);
+                // 可以根据服务器的响应执行其他逻辑
+                if (data.msg === 'success') {
+                    alert(`订单完成！Boss ID: ${data.boss_id}, Service Type: ${data.service_type}`);
+                } else {
+                    alert('订单提交失败，请重试。');
+                }
+            })
+            .catch(error => {
+                console.error('错误:', error);
+                alert('提交时出现错误，请重试。');
+            });
     });
 
     // 初始化
