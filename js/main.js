@@ -528,21 +528,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 提交表单
+    // Submit form event listener
     serviceForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // 表单验证
+        // Form validation
         const serviceType = serviceTypeSelect.value;
         if (!serviceType) {
             alert('请选择服务类型');
             return;
         }
 
-        // 提交逻辑
+        // Gather form data
         const formData = new FormData(serviceForm);
-        const orderData = Object.fromEntries(formData.entries());
 
-        // 使用fetch API发送请求到后端
+        // Send request to backend
         fetch('https://ws-flask.onrender.com/api/submit_order', {
             method: 'POST',
             body: formData
@@ -550,9 +550,15 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 console.log('服务器响应:', data);
-                // 可以根据服务器的响应执行其他逻辑
+
+                // Handle response
                 if (data.msg === 'success') {
-                    alert(`订单完成！Boss ID: ${data.boss_id}, Service Type: ${data.service_type}`);
+                    let message = `订单完成！订单编号: ${data.order_id}, Boss ID: ${data.boss_id}, 服务类型: ${data.service_type}, 价格: ${data.price}`;
+                    if (['survivor', 'hunter'].includes(serviceType)) {
+                        message += `, 指定的角色: ${data.role || '无'}, 段位: ${data.rank_now}-${data.rank_target}, ` +
+                            `认知分: ${data.point_now ? data.point_now : '无'}-${data.point_target ? data.point_target : '无'}`;
+                    }
+                    alert(message);
                 } else {
                     alert('订单提交失败，请重试。');
                 }
